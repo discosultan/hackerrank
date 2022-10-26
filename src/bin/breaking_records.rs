@@ -32,9 +32,18 @@ fn main() {
 
     let mut fptr = File::create(env::var("OUTPUT_PATH").unwrap()).unwrap();
 
-    let n = stdin_iterator.next().unwrap().unwrap().trim().parse::<i32>().unwrap();
+    let _n = stdin_iterator
+        .next()
+        .unwrap()
+        .unwrap()
+        .trim()
+        .parse::<i32>()
+        .unwrap();
 
-    let scores: Vec<i32> = stdin_iterator.next().unwrap().unwrap()
+    let scores: Vec<i32> = stdin_iterator
+        .next()
+        .unwrap()
+        .unwrap()
         .trim_end()
         .split(' ')
         .map(|s| s.to_string().parse::<i32>().unwrap())

@@ -12,13 +12,8 @@ use std::io::{self, BufRead, Write};
  *  3. INTEGER m
  */
 
-fn mwise(s: &[i32], m: usize) -> Vec<&[i32]> {
-    // TODO: return iterator of slices instead
-    let mut result: Vec<&[i32]> = Vec::with_capacity(s.len() - m + 1);
-    for i in 0..s.len() - m + 1 {
-        result.push(&s[i..i + m]);
-    }
-    result
+fn mwise(s: &[i32], m: usize) -> impl Iterator<Item = &[i32]> {
+    (0..s.len() - m + 1).map(move |i| &s[i..i + m])
 }
 
 fn birthday(s: &[i32], d: i32, m: i32) -> i32 {
@@ -27,7 +22,6 @@ fn birthday(s: &[i32], d: i32, m: i32) -> i32 {
     }
 
     mwise(s, m as usize)
-        .iter()
         .filter(|window| window.iter().sum::<i32>() == d)
         .count() as i32
 }
@@ -38,7 +32,7 @@ fn main() {
 
     let mut fptr = File::create(env::var("OUTPUT_PATH").unwrap()).unwrap();
 
-    let n = stdin_iterator
+    let _n = stdin_iterator
         .next()
         .unwrap()
         .unwrap()

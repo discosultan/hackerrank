@@ -3,16 +3,16 @@ use std::io::prelude::*;
 
 fn main() {
     let input = io::stdin();
-    // let mut input_handle = input.lock();
+    let _input_handle = input.lock();
     let output = io::stdout();
     let mut output_handle = output.lock();
 
     let mut buffer = String::new();
-    input.read_line(&mut buffer);
+    input.read_line(&mut buffer).unwrap();
 
     let x = buffer
         .split_whitespace()
-        .map(|w| { w.parse::<u32>().unwrap() })
+        .map(|w| w.parse::<u32>().unwrap())
         .collect::<Vec<_>>();
 
     let mut x1 = x[0];
@@ -21,12 +21,12 @@ fn main() {
     let v2 = x[3];
 
     if x1 == x2 {
-        output_handle.write(b"YES");
+        output_handle.write_all(b"YES").unwrap();
         return;
     }
 
     if v1 <= v2 {
-        output_handle.write(b"NO");
+        output_handle.write_all(b"NO").unwrap();
         return;
     }
 
@@ -35,10 +35,10 @@ fn main() {
         x2 += v2;
 
         if x1 == x2 {
-            output_handle.write(b"YES");
+            output_handle.write_all(b"YES").unwrap();
             return;
         }
     }
 
-    output_handle.write(b"NO");
+    output_handle.write_all(b"NO").unwrap();
 }

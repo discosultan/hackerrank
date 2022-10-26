@@ -3,19 +3,16 @@ use std::io::prelude::*;
 
 fn main() {
     let input = io::stdin();
-    let mut input_handle = input.lock();
+    let input_handle = input.lock();
     let output = io::stdout();
     let mut output_handle = output.lock();
 
-    let mut values = input_handle
-        .lines()
-        .map(|l| { l.unwrap() })
-        .flat_map(|l| {
-            l.split_whitespace()
-             .map(|w| w.parse::<i32>().unwrap())
-             .collect::<Vec<_>>()
-             .into_iter()
-        });
+    let mut values = input_handle.lines().map(|l| l.unwrap()).flat_map(|l| {
+        l.split_whitespace()
+            .map(|w| w.parse::<i32>().unwrap())
+            .collect::<Vec<_>>()
+            .into_iter()
+    });
 
     let s = values.next().unwrap();
     let t = values.next().unwrap();
@@ -27,14 +24,19 @@ fn main() {
     let apples_on_house = count_on_house(a, s, t, m, &mut values);
     let oranges_on_house = count_on_house(b, s, t, n, &mut values);
 
-    output_handle.write(apples_on_house.to_string().as_bytes());
-    output_handle.write(b"\n");
-    output_handle.write(oranges_on_house.to_string().as_bytes());
-    output_handle.write(b"\n");
+    output_handle
+        .write_all(apples_on_house.to_string().as_bytes())
+        .unwrap();
+    output_handle.write_all(b"\n").unwrap();
+    output_handle
+        .write_all(oranges_on_house.to_string().as_bytes())
+        .unwrap();
+    output_handle.write_all(b"\n").unwrap();
 }
 
-fn count_on_house<I>(origin: i32, s: i32, t: i32, count: i32, values: &mut I) -> i32 
-    where I: Iterator<Item=i32>
+fn count_on_house<I>(origin: i32, s: i32, t: i32, count: i32, values: &mut I) -> i32
+where
+    I: Iterator<Item = i32>,
 {
     let mut result = 0;
     for _ in 0..count {
