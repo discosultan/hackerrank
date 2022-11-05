@@ -40,12 +40,7 @@ fn gcd_set(set: &[usize]) -> usize {
 
 fn gcd(mut x: usize, mut y: usize) -> usize {
     while y > 0 {
-        // RFC for destructuring assignment: https://github.com/rust-lang/rfcs/issues/372
-        // (a, b) = (b, a % b);
-
-        let temp = x;
-        x = y;
-        y = temp % y;
+        (x, y) = (y, x % y);
     }
     x
 }
